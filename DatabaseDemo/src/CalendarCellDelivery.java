@@ -8,14 +8,14 @@ import javafx.scene.layout.VBox;
 
 public class CalendarCellDelivery extends CalendarCell {
 	
-	public CalendarCellDelivery(DBInterface db, LocalDate date) {
-		super(db,date);
+	public CalendarCellDelivery(LocalDate date) {
+		super(date);
 	}
 
 	@Override
 	public Scene popupScene() {
 		HBox hor = new HBox();
-		SQLTable table = new SQLTable(db.getDeliveries(date));
+		SQLTable table = new SQLTable(DBInterface.getDeliveries(date));
 		hor.getChildren().add(table);
 		VBox vert = new VBox();
 		Label label = new Label("  Functionality goes here  ");
