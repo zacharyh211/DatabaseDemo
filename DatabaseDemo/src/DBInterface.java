@@ -5,12 +5,13 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class DBInterface {
-	Statement statement;
-	public DBInterface(Statement statement) {
-		this.statement = statement;
+	private static Statement statement;
+	
+	public static void setStatement(Statement statement) {
+		DBInterface.statement = statement;
 	}
 	
-	public ResultSet getDeliveries(LocalDate date) {
+	public static ResultSet getDeliveries(LocalDate date) {
 		try {
 			return statement.executeQuery(
 					  "SELECT TIME(time) AS Time, I.Name AS Ingredient, D.Amount AS 'Amount (pounds)', CONCAT('$',D.Cost) AS 'Cost'\n"

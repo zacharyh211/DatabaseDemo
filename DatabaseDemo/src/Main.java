@@ -15,9 +15,9 @@ public class Main extends Application {
 		Class.forName("com.mysql.jdbc.Driver");
 		Connection connect = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/restaurant_schema?user=root&autoReconnect=true&useSSL=false");
 		Statement statement = connect.createStatement();
-		DBInterface inter = new DBInterface(statement);
+		DBInterface.setStatement(statement);
 		primaryStage.setTitle("Testing Calendar");
-		CalendarPanel cal = new CalendarPanel(2018,12,inter);
+		CalendarPanel cal = new CalendarPanel(2018,12);
 		Scene scene = new Scene(cal);
 		primaryStage.setScene(scene);
 		primaryStage.show();

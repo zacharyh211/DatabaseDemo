@@ -13,12 +13,10 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public abstract class CalendarCell extends StackPane {
-	DBInterface db;
 	LocalDate date;
 	final private int dim = 100;
 	
-	public CalendarCell(DBInterface db, LocalDate date) {
-		this.db = db;
+	public CalendarCell(LocalDate date) {
 		this.date = date;
 		Rectangle rect = new Rectangle(dim,dim,Color.WHITE);
 		rect.setStroke(Color.BLACK);
