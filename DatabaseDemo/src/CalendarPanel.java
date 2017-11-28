@@ -11,7 +11,7 @@ public class CalendarPanel extends GridPane {
 	int month;
 	LocalDate[][] day;
 	
-	public CalendarPanel(int year, int month) {
+	public CalendarPanel(int year, int month, cellPopup popup) {
 		this.year = year;
 		this.month = month;
 		day = new LocalDate[7][7];
@@ -35,6 +35,6 @@ public class CalendarPanel extends GridPane {
 		}
 		for(int r = 1; r < 7; r++)
 			for(int c = 0; c < 7; c++)
-				add(new CalendarCellDelivery(day[r-1][c]), c, r, 1, 1);
+				add(new CalendarCell(day[r-1][c], popup), c, r, 1, 1);
 	}
 }
