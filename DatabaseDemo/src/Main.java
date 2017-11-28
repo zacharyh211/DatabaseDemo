@@ -13,7 +13,7 @@ public class Main extends Application {
 	
 	public void start(Stage primaryStage) throws Exception {
 		Class.forName("com.mysql.jdbc.Driver");
-		Connection connect = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/restaurant_schema?user=root&password=zachary1&autoReconnect=true&useSSL=false");
+		Connection connect = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/restaurant_schema?user=root&autoReconnect=true&useSSL=false");
 		Statement statement = connect.createStatement();
 		DBInterface inter = new DBInterface(statement);
 		primaryStage.setTitle("Testing Calendar");
