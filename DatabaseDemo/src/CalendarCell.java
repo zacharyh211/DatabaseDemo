@@ -12,11 +12,11 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public abstract class CalendarCell extends StackPane {
+public class CalendarCell extends StackPane {
 	LocalDate date;
 	final private int dim = 100;
 	
-	public CalendarCell(LocalDate date) {
+	public CalendarCell(LocalDate date, cellPopup func) {
 		this.date = date;
 		Rectangle rect = new Rectangle(dim,dim,Color.WHITE);
 		rect.setStroke(Color.BLACK);
@@ -32,7 +32,7 @@ public abstract class CalendarCell extends StackPane {
 				public void handle(MouseEvent t) {
 					Stage parent = (Stage) getScene().getWindow();
 					Stage popup = new Stage();
-					popup.setScene(popupScene());
+					popup.setScene(func.getPopupScene(date));
 					popup.initModality(Modality.WINDOW_MODAL);
 					popup.initOwner(parent);
 					
@@ -43,6 +43,4 @@ public abstract class CalendarCell extends StackPane {
 		else
 			rect.setFill(Color.LIGHTGRAY);
 	}
-	
-	public abstract Scene popupScene();
 }
