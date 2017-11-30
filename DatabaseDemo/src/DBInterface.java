@@ -36,4 +36,19 @@ public class DBInterface {
 			return false;
 		}
 	}
+
+	public static ResultSet getIntegredients() {
+		try {
+			ResultSet rs = statement.executeQuery( //Add Next delivery time column
+					"SELECT I.Name as Ingredient, I.Amount as 'Amount (pounds)', Count(M.ID) as 'Used in # Recipes'\n"
+					+ "FROM Ingredient as I "
+					+ 	"LEFT JOIN (Requires as R JOIN Menu_Item as M on R.MenuItemID = M.ID) on I.ID = R.IngredientID\n"
+					+ "GROUP BY I.Name, I.Amount");
+			return rs;
+		}
+		catch(SQLException e) {
+			System.out.println(e.getMessage());
+			return null;
+		}
+	}
 }

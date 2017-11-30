@@ -4,12 +4,14 @@ import java.sql.Statement;
 import java.time.LocalDate;
 
 import javafx.application.Application;
-import javafx.geometry.Pos;
+import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
+import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TabPane.TabClosingPolicy;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -38,9 +40,14 @@ public class Main extends Application {
 					SQLTable table = new SQLTable(DBInterface.getDeliveries(date));
 					hor.getChildren().add(table);
 					VBox vert = new VBox();
-					Label label = new Label("  Functionality goes here  ");
-					vert.getChildren().add(label);
-					vert.setAlignment(Pos.CENTER);
+					Button add_btn = new Button("  Add Delivery  ");
+					add_btn.setOnMouseClicked(new EventHandler<MouseEvent>() {
+						public void handle(MouseEvent e) {
+							InputForm.open(table,date);
+						}
+					});
+					vert.setPadding(new Insets(5,5,5,5));
+					vert.getChildren().add(add_btn);
 					hor.getChildren().add(vert);
 					return new Scene(hor);
 				}
@@ -56,6 +63,12 @@ public class Main extends Application {
 		calTab.setContent(cal);
 		calTab.setText("Delivery Calendar");
 		tabpane.getTabs().add(calTab);
+		
+		//Inventory Tab
+		Tab inventTab = new Tab();
+		inventTab.setText("Ingredient Inventory");
+		inventTab.setContent(new SQLTable(DBInterface.getIntegredients()));
+		tabpane.getTabs().add(inventTab);
 		
 		Scene scene = new Scene(tabpane);
 		primaryStage.setScene(scene);
