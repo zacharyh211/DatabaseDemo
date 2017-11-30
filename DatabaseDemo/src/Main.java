@@ -115,12 +115,7 @@ public class Main extends Application {
 				    box.valueProperty().addListener(new ChangeListener<String>() {
 				        @Override public void changed(ObservableValue<? extends String> ov, String old, String newStr) {
 				        	SQLTable temp = new SQLTable(DBInterface.getWaiterShifts(date, newStr));
-				        	Node toRemove = null;
-				        	for(Node n : hor.getChildren())
-				        		if(n != vert)
-				        			toRemove = n;
-				        	hor.getChildren().remove(toRemove);
-				        	hor.getChildren().add(0,temp);
+				        	hor.getChildren().set(0,temp);
 				        }   
 				    });
 					vert.setPadding(new Insets(5,5,5,5));
