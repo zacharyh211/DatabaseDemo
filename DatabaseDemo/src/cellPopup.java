@@ -1,9 +1,9 @@
 import java.time.LocalDate;
 
-import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 
 @FunctionalInterface
 public interface cellPopup {
-	public Scene getPopupScene(LocalDate date);
+	public Stage getPopupStage(LocalDate date);
 }

@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -52,7 +53,7 @@ public class Main extends Application {
 		//Delivery Calendar Tab
 		Tab calTab = new Tab();
 		CalendarPanel cal = new CalendarPanel(new cellPopup() {
-			public Scene getPopupScene(LocalDate date) {
+			public Stage getPopupStage(LocalDate date) {
 				{
 					HBox hor = new HBox();
 					SQLTable table = new SQLTable(DBInterface.getDeliveries(date));
@@ -67,7 +68,11 @@ public class Main extends Application {
 					vert.setPadding(new Insets(5,5,5,5));
 					vert.getChildren().add(add_btn);
 					hor.getChildren().add(vert);
-					return new Scene(hor);
+					Scene tmp = new Scene(hor);
+					Stage res = new Stage();
+					res.setScene(tmp);
+					res.setTitle("Deliveries on " + date.format(DateTimeFormatter.ofPattern("MMMM d, yyyy")));
+					return res;
 				}
 			}
 		}, new determineColor() {
@@ -102,7 +107,7 @@ public class Main extends Application {
 		//Shift Calendar Tab
 		Tab shiftTab = new Tab();
 		CalendarPanel shiftCal = new CalendarPanel(new cellPopup() {
-			public Scene getPopupScene(LocalDate date) {
+			public Stage getPopupStage(LocalDate date) {
 				{
 					HBox hor = new HBox();
 					SQLTable table = new SQLTable(DBInterface.getWaiterShifts(date, "Breakfast"));
@@ -121,7 +126,11 @@ public class Main extends Application {
 					vert.setPadding(new Insets(5,5,5,5));
 					vert.getChildren().add(box);
 					hor.getChildren().add(vert);
-					return new Scene(hor);
+					Scene tmp = new Scene(hor);
+					Stage res = new Stage();
+					res.setScene(tmp);
+					res.setTitle("Shifts on " + date.format(DateTimeFormatter.ofPattern("MMMM d, yyyy")));
+					return res;
 				}
 			}
 		}, new determineColor() {

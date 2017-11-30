@@ -33,11 +33,9 @@ public class CalendarCell extends StackPane {
 				@Override
 				public void handle(MouseEvent t) {
 					Stage parent = (Stage) getScene().getWindow();
-					Stage popup = new Stage();
-					popup.setScene(func.getPopupScene(date));
+					Stage popup = func.getPopupStage(date);
 					popup.initModality(Modality.WINDOW_MODAL);
 					popup.initOwner(parent);
-					popup.setTitle("Deliveries on " + date.format(DateTimeFormatter.ofPattern("MMMM d, yyyy")));
 					popup.show();
 				}
 			});
