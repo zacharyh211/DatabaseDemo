@@ -39,12 +39,28 @@ public class DBInterface {
 
 	public static ResultSet getIntegredients() {
 		try {
-			ResultSet rs = statement.executeQuery( //Add Next delivery time column
+			ResultSet rs = statement.executeQuery(
 					"SELECT I.Name as Ingredient, I.Amount as 'Amount (pounds)', Count(DISTINCT M.ID) as 'Used in # Recipes', MIN(D.Time) as 'Next Delivery'\n"
 					+ "FROM Ingredient as I "
 					+ 	"LEFT JOIN (Requires as R JOIN Menu_Item as M on R.MenuItemID = M.ID) on I.ID = R.IngredientID\n"
 					+ 	"JOIN Delivery as D on I.ID = D.IngredientID\n"
 					+ "GROUP BY I.Name, I.Amount");
+			return rs;
+		}
+		catch(SQLException e) {
+			System.out.println(e.getMessage());
+			return null;
+		}
+	}
+	
+	public static ResultSet getMenuItems() {
+		try {
+			ResultSet rs = statement.executeQuery(
+					"SELECT M.Name AS MenuItem, M.price as Price, I.Name as Ingredient\n"
+					+ "FROM Menu_Item as M\n"
+					+ "JOIN Requires as R on M.ID = R.MenuItemID\n"
+					+ "JOIN Ingredient as I on I.ID = R.IngredientID\n"
+					+ "GROUP BY M.Name, I.Name");
 			return rs;
 		}
 		catch(SQLException e) {
