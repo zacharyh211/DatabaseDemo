@@ -40,9 +40,10 @@ public class DBInterface {
 	public static ResultSet getIntegredients() {
 		try {
 			ResultSet rs = statement.executeQuery( //Add Next delivery time column
-					"SELECT I.Name as Ingredient, I.Amount as 'Amount (pounds)', Count(M.ID) as 'Used in # Recipes'\n"
+					"SELECT I.Name as Ingredient, I.Amount as 'Amount (pounds)', Count(DISTINCT M.ID) as 'Used in # Recipes', MIN(D.Time) as 'Next Delivery'\n"
 					+ "FROM Ingredient as I "
 					+ 	"LEFT JOIN (Requires as R JOIN Menu_Item as M on R.MenuItemID = M.ID) on I.ID = R.IngredientID\n"
+					+ 	"JOIN Delivery as D on I.ID = D.IngredientID\n"
 					+ "GROUP BY I.Name, I.Amount");
 			return rs;
 		}
