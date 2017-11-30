@@ -11,6 +11,37 @@ public class DBInterface {
 		DBInterface.statement = statement;
 	}
 	
+	public static ResultSet getWaiterShifts(LocalDate date, String service) {
+        try {
+	        String waiterQuery = "SELECT ID as WaiterID, FName, LName "
+	                + "FROM EMPLOYEE "
+	                + "WHERE Type = 'Waiter'";  
+	        
+	        String shiftQuery = "SELECT * "
+	                + "FROM SERVES JOIN RESTAURANT_TABLE "
+	                    + "ON TableNo = Number "
+	                + "WHERE ShiftDate = '" + date.toString() + "' "
+	                + "AND ShiftService = '" + service + "'";
+	        
+	        ResultSet rs = statement.executeQuery(
+	                "SELECT WaiterID, FName, LName, COUNT(TableNo) as Tables, IFNULL(SUM(Max_Cap),0) as People "
+	                + "FROM "
+	                + "(" + waiterQuery + ") as W "
+	                + "NATURAL LEFT OUTER JOIN "
+	                + "(" + shiftQuery + ") as S "
+	                + "GROUP BY WaiterId, FName, LName;");  
+	        
+	        //while(rs.next())
+              //  System.out.println(rs.getString(1) + rs.getString(2) + rs.getString(3));
+	        
+	        return rs;
+		}
+        catch(SQLException e) {
+			System.out.println(e.getMessage());
+			return null;
+		}
+	}
+	
 	public static ResultSet getDeliveries(LocalDate date) {
 		try {
 			return statement.executeQuery(
