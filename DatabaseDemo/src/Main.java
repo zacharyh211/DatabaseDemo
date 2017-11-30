@@ -1,4 +1,4 @@
-import java.awt.ScrollPane;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -16,8 +16,9 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TabPane.TabClosingPolicy;
@@ -87,6 +88,16 @@ public class Main extends Application {
 		inventTab.setContent(new SQLTable(DBInterface.getIntegredients()));
 		tabpane.getTabs().add(inventTab);
 		
+		//Menu Tab
+		Tab menuTab = new Tab();
+		ScrollPane menu = generateMenu(DBInterface.getMenuItems());
+		menuTab.setText("Restaurant Menu");
+		menuTab.setContent(menu);
+		tabpane.getTabs().add(menuTab);
+		
+		tabpane.setMaxWidth(1400);
+		tabpane.setMaxHeight(800);
+		
 		//Shift Calendar Tab
 		Tab shiftTab = new Tab();
 		CalendarPanel shiftCal = new CalendarPanel(new cellPopup() {
@@ -122,7 +133,6 @@ public class Main extends Application {
 		shiftTab.setContent(shiftCal);
 		shiftTab.setText("Shift Calendar");
 		tabpane.getTabs().add(shiftTab);
-		
 		
 		Scene scene = new Scene(tabpane);
 		primaryStage.setScene(scene);
