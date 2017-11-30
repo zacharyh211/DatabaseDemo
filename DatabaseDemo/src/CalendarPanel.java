@@ -16,11 +16,13 @@ public class CalendarPanel extends GridPane {
 	YearMonth ym;
 	LocalDate[][] day;
 	cellPopup popup;
+	determineColor color;
 	Label label;
 	
-	public CalendarPanel(cellPopup popup) {
+	public CalendarPanel(cellPopup popup, determineColor color) {
 		label = new Label();
 		this.popup = popup;
+		this.color = color;
 		update(YearMonth.now());
 		
 		//Set month changer
@@ -78,6 +80,6 @@ public class CalendarPanel extends GridPane {
 		}
 		for(int r = 0; r < 6; r++)
 			for(int c = 0; c < 7; c++)
-				add(new CalendarCell(day[r][c], popup), c, r+2, 1, 1);
+				add(new CalendarCell(day[r][c], popup, color), c, r+2, 1, 1);
 	}
 }

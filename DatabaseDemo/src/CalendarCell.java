@@ -16,9 +16,9 @@ public class CalendarCell extends StackPane {
 	LocalDate date;
 	final private int dim = 100;
 	
-	public CalendarCell(LocalDate date, cellPopup func) {
+	public CalendarCell(LocalDate date, cellPopup func, determineColor detCol) {
 		this.date = date;
-		Rectangle rect = new Rectangle(dim,dim,Color.WHITE);
+		Rectangle rect = new Rectangle(dim,dim);
 		rect.setStroke(Color.BLACK);
 		rect.setStrokeWidth(0.2);
 		getChildren().add(rect);
@@ -27,8 +27,7 @@ public class CalendarCell extends StackPane {
 			getChildren().add(dateNum);
 			setAlignment(dateNum, Pos.TOP_LEFT);
 			setMargin(dateNum, new Insets(4,0,0,4));
-			if(DBInterface.existDeliveries(date))
-				rect.setFill(Color.LIGHTBLUE);
+			rect.setFill(detCol.decide(date));
 			rect.setOnMouseClicked(new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent t) {

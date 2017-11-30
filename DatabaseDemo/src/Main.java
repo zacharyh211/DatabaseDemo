@@ -12,6 +12,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.TabPane.TabClosingPolicy;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -43,6 +44,13 @@ public class Main extends Application {
 					hor.getChildren().add(vert);
 					return new Scene(hor);
 				}
+			}
+		}, new determineColor() {
+			public Color decide(LocalDate date) {
+				if(DBInterface.existDeliveries(date))
+					return Color.LIGHTBLUE;
+				else
+					return Color.WHITE;
 			}
 		});
 		calTab.setContent(cal);
