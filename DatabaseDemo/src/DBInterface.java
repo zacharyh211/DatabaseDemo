@@ -23,4 +23,17 @@ public class DBInterface {
 			return null;
 		}
 	}
+	
+	public static boolean existDeliveries(LocalDate date) {
+		try {
+			ResultSet rs = statement.executeQuery(
+					"SELECT 1\n"
+					+ "FROM DELIVERY AS D JOIN INGREDIENT AS I ON D.INGREDIENTID = I.ID\n"
+					+ "WHERE DATE(time) = '" + date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + "'");
+			return rs.next();
+		}
+		catch(Exception e) {
+			return false;
+		}
+	}
 }

@@ -27,6 +27,8 @@ public class CalendarCell extends StackPane {
 			getChildren().add(dateNum);
 			setAlignment(dateNum, Pos.TOP_LEFT);
 			setMargin(dateNum, new Insets(4,0,0,4));
+			if(DBInterface.existDeliveries(date))
+				rect.setFill(Color.LIGHTBLUE);
 			rect.setOnMouseClicked(new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent t) {
@@ -35,7 +37,6 @@ public class CalendarCell extends StackPane {
 					popup.setScene(func.getPopupScene(date));
 					popup.initModality(Modality.WINDOW_MODAL);
 					popup.initOwner(parent);
-					
 					popup.show();
 				}
 			});

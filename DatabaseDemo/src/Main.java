@@ -7,6 +7,9 @@ import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
+import javafx.scene.control.TabPane.TabClosingPolicy;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -21,8 +24,13 @@ public class Main extends Application {
 		Connection connect = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/restaurant_schema?user=root&autoReconnect=true&useSSL=false");
 		Statement statement = connect.createStatement();
 		DBInterface.setStatement(statement);
-		primaryStage.setTitle("Testing Calendar");
-		CalendarPanel cal = new CalendarPanel(2018,12, new cellPopup() {
+		primaryStage.setTitle("Demo Application");
+		TabPane tabpane = new TabPane();
+		tabpane.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
+		
+		//Delivery Calendar Tab
+		Tab calTab = new Tab();
+		CalendarPanel cal = new CalendarPanel(new cellPopup() {
 			public Scene getPopupScene(LocalDate date) {
 				{
 					HBox hor = new HBox();
@@ -37,7 +45,11 @@ public class Main extends Application {
 				}
 			}
 		});
-		Scene scene = new Scene(cal);
+		calTab.setContent(cal);
+		calTab.setText("Delivery Calendar");
+		tabpane.getTabs().add(calTab);
+		
+		Scene scene = new Scene(tabpane);
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
