@@ -4,10 +4,13 @@ import java.sql.Statement;
 import java.time.LocalDate;
 
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TabPane.TabClosingPolicy;
@@ -25,6 +28,7 @@ public class Main extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		Class.forName("com.mysql.jdbc.Driver");
 		Connection connect = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/restaurant_schema?user=root&autoReconnect=true&useSSL=false");
+		//Connection connect = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/musketeers?user=root&password=beyblade&autoReconnect=true&useSSL=false");
 		Statement statement = connect.createStatement();
 		DBInterface.setStatement(statement);
 		primaryStage.setTitle("Demo Application");
@@ -69,6 +73,43 @@ public class Main extends Application {
 		inventTab.setText("Ingredient Inventory");
 		inventTab.setContent(new SQLTable(DBInterface.getIntegredients()));
 		tabpane.getTabs().add(inventTab);
+		
+		//Shift Calendar Tab
+		Tab shiftTab = new Tab();
+		CalendarPanel shiftCal = new CalendarPanel(new cellPopup() {
+			public Scene getPopupScene(LocalDate date) {
+				{
+					HBox hor = new HBox();
+					SQLTable table = new SQLTable(DBInterface.getWaiterShifts(date, "Breakfast"));
+					hor.getChildren().add(table);
+					VBox vert = new VBox();
+					
+					ComboBox box = new ComboBox();
+				    box.getItems().addAll("Breakfast", "Lunch", "Dinner");
+				    box.setValue("Breakfast");    
+				    box.valueProperty().addListener(new ChangeListener<String>() {
+				        @Override public void changed(ObservableValue<? extends String> ov, String old, String newStr) {
+				        	SQLTable temp = new SQLTable(DBInterface.getWaiterShifts(date, newStr));
+				        	hor.getChildren().clear();
+				        	hor.getChildren().add(temp);
+				        	hor.getChildren().add(vert);
+				        }   
+				    });
+					vert.setPadding(new Insets(5,5,5,5));
+					vert.getChildren().add(box);
+					hor.getChildren().add(vert);
+					return new Scene(hor);
+				}
+			}
+		}, new determineColor() {
+			public Color decide(LocalDate date) {
+				return Color.LIGHTBLUE;
+			}
+		});
+		shiftTab.setContent(shiftCal);
+		shiftTab.setText("Shift Calendar");
+		tabpane.getTabs().add(shiftTab);
+		
 		
 		Scene scene = new Scene(tabpane);
 		primaryStage.setScene(scene);
