@@ -14,11 +14,12 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TabPane.TabClosingPolicy;
@@ -114,9 +115,12 @@ public class Main extends Application {
 				    box.valueProperty().addListener(new ChangeListener<String>() {
 				        @Override public void changed(ObservableValue<? extends String> ov, String old, String newStr) {
 				        	SQLTable temp = new SQLTable(DBInterface.getWaiterShifts(date, newStr));
-				        	hor.getChildren().clear();
-				        	hor.getChildren().add(temp);
-				        	hor.getChildren().add(vert);
+				        	Node toRemove = null;
+				        	for(Node n : hor.getChildren())
+				        		if(n != vert)
+				        			toRemove = n;
+				        	hor.getChildren().remove(toRemove);
+				        	hor.getChildren().add(0,temp);
 				        }   
 				    });
 					vert.setPadding(new Insets(5,5,5,5));
