@@ -59,6 +59,7 @@ public class InputForm {
 		popup.setScene(scene);
 		popup.initModality(Modality.WINDOW_MODAL);
 		popup.initOwner((Stage)table.getScene().getWindow());
+		popup.setTitle("Add Delivery Form");
 		popup.show();
 	}
 }

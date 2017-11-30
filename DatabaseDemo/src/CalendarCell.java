@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -36,6 +37,7 @@ public class CalendarCell extends StackPane {
 					popup.setScene(func.getPopupScene(date));
 					popup.initModality(Modality.WINDOW_MODAL);
 					popup.initOwner(parent);
+					popup.setTitle("Deliveries on " + date.format(DateTimeFormatter.ofPattern("MMMM d, yyyy")));
 					popup.show();
 				}
 			});
